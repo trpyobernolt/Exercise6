@@ -6,27 +6,21 @@ public class LShape extends Shape {
         if(h<2 || w<2){
             throw new ShapeIllegalArgumentException("An L shape must be at least 2x2");
         }
-        this.height = h;
-        this.width = w;
+        this.setHeight(h);
+        this.setWidth(w);
     }
 
     @Override
-    public void printToScreen(int line) {
+    public void printLine(int line) {
         if(line < this.getHeight() && line != 0) {
-            System.out.print("*");
-            for(int i = 0; i < this.getWidth() - 1; i++) {
-                System.out.print(" ");
-            }
+            printSymbol();
+            printSpaces(this.getWidth() - 1);
         }
         if(line == this.getHeight()) {
-            for(int i = 0; i < this.getWidth(); i++) {
-                System.out.print("*");
-            }
+            printWidth('*');
         }
         if(line > this.getHeight()) {
-            for(int i = 0; i < this.getWidth(); i++) {
-                System.out.print(" ");
-            }
+            printSpaces(this.getWidth());
         }
     }
 }

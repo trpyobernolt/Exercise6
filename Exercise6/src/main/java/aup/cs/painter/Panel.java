@@ -1,13 +1,12 @@
 package aup.cs.painter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class Panel extends Painter implements Node {
+public class Panel extends Node {
     private int height;
     private int width;
-    private int totalWidth;
-    private int totalHeight;
-
+    private int containedWidth = 1;
     private ArrayList<Node> list = new ArrayList<>();
 
     public Panel(int h, int w) {
@@ -15,41 +14,24 @@ public class Panel extends Painter implements Node {
         this.width = w;
     }
 
-    public void add(Node n) throws NodeOverflow {
-        //adds a given node to the list and catches possible exceptions
-        if(totalWidth + n.getWidth() >= pane.getWidth()) {
+    public void add(Node nodeToAdd) throws NodeOverflow {
+        list.add(nodeToAdd);
+        containedWidth += nodeToAdd.getWidth() + 1;
+        if(containedWidth >= getWidth() - 1 || nodeToAdd.getHeight() >= getHeight() - 1){
             throw new NodeOverflow();
         }
-        if(totalHeight + n.getHeight() >= pane.getHeight()) {
-            throw new NodeOverflow();
+    }
+
+    public void printLine(int line){
+        if((line == 1) || (line == getHeight())){
+            printWidth('-');
         }
-        totalWidth += n.getWidth();
-        totalHeight += n.getHeight();
-        list.add(n);
-    }
-
-    public void printLine(int line) {
-        //Prints out a panel line
-        this.printToScreen(line);
-    }
-
-    public void printToScreen(int line) {
-        if(line == 0 || line == this.getHeight()-1) {
-            for(int i = 0; i < this.getWidth() + 2; i++) {
-                System.out.print("-");
-            }
+        else if(line <= getHeight()){
+            printInterior(list, line);
         }
         else{
-            System.out.print("|");
-            for(int i = 0; i < list.size(); i++) {
-                list.get(i).printToScreen(line);
-            }
-            for(int x = 0; x < (this.getWidth() - this.totalWidth); x++) {
-                System.out.print(" ");
-            }
-            System.out.print("|");
+            printSpaces(getWidth());
         }
-        System.out.print("\n");
     }
 
     public int getHeight() {
@@ -59,5 +41,14 @@ public class Panel extends Painter implements Node {
 
     public int getWidth() {
         return width;
+    }
+
+    public void sort(){
+        Collections.sort(list, new NodeComparator());
+        for(Node n : list) {
+            if(n instanceof Panel) {
+                ((Panel) n).sort();
+            }
+        }
     }
 }
