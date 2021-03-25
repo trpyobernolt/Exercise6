@@ -5,6 +5,7 @@ import java.util.Comparator;
 public class NodeComparator implements Comparator<Node> {
         @Override
         public int compare(Node o1, Node o2) {
+            //Compares two nodes and sorts them shortest first or shape first
             if(o1 instanceof Panel && o2 instanceof Panel) {
                 return o1.getHeight() - o2.getHeight();
             }

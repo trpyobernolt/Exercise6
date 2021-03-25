@@ -15,14 +15,19 @@ public class Panel extends Node {
     }
 
     public void add(Node nodeToAdd) throws NodeOverflow {
+        //Adds a node to the list and throws an exception if they exceed width of panel
         list.add(nodeToAdd);
+        if(nodeToAdd instanceof Panel) {
+            panels++;
+        }
         containedWidth += nodeToAdd.getWidth() + 1;
         if(containedWidth >= getWidth() - 1 || nodeToAdd.getHeight() >= getHeight() - 1){
-            throw new NodeOverflow();
+            throw new NodeOverflow("Shapes overflow from given panel");
         }
     }
 
     public void printLine(int line){
+        // prints out one line of a panel
         if((line == 1) || (line == getHeight())){
             printWidth('-');
         }
@@ -44,7 +49,7 @@ public class Panel extends Node {
     }
 
     public void sort(){
-        Collections.sort(list, new NodeComparator());
+        list.sort(new NodeComparator());
         for(Node n : list) {
             if(n instanceof Panel) {
                 ((Panel) n).sort();

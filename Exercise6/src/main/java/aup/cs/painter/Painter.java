@@ -16,11 +16,12 @@ public class Painter {
     }
 
     private void init() throws NodeOverflow {
+        //populates panels
         pane = new Panel(15,100);
         Panel pane2 = new Panel(10,28);
-        //Panel pane3 = new Panel(12, 15);
+        Panel pane3 = new Panel(12, 15);
         try {
-            //pane.add(pane3);
+            pane.add(pane3);
             TShape t = new TShape(7,5);
             pane.add(t);
             pane.add(t.clone());
@@ -32,7 +33,6 @@ public class Painter {
         } catch (ShapeIllegalArgumentException | CloneNotSupportedException e) {
             System.out.println("Could not add given shapes: " + e.getMessage());
         }
-        //pane.add(pane2);
     }
 
     private void printToScreen() {

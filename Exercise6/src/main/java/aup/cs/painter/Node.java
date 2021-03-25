@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public abstract class Node implements Cloneable {
     private int height;
     private int width;
-    private char printSymbol = '*';
+    static int panels;
 
     public Node(){
         this(10, 10);
@@ -17,21 +17,26 @@ public abstract class Node implements Cloneable {
     }
 
     protected void printSymbol(){
+        //Prints one symbol to the screen
+        char printSymbol = '*';
         System.out.print(printSymbol);
     }
 
     protected void printWidth(char c){
+        ///Prints out width of node with a given char
         for(int i = 0; i < getWidth(); i++){
             System.out.print(c);
         }
     }
 
     protected void printSpaces(int numOfSpaces){
+        //prints out a given number of spaces
         String spaces = new String(new char[numOfSpaces]).replace("\0", " ");
         System.out.print(spaces);
     }
 
     protected void printInterior(ArrayList<Node> nodes, int line){
+        //Prints out the interior of a panel
         System.out.print("|");
         int acc = 0;
         for (int i = 0; i < nodes.size(); i++) {
@@ -43,21 +48,18 @@ public abstract class Node implements Cloneable {
             acc += widthHere + 2;
         }
         int numOfSpaces = getWidth() - acc;
-        printSpaces(numOfSpaces + 1);
+        printSpaces(numOfSpaces);
         System.out.print("|");
     }
 
     public Node clone() throws CloneNotSupportedException {
+        //Makes a clone of given node
         Node clonedNode = (Node) super.clone();
         clonedNode.height = this.height;
         clonedNode.width = this.width;
         return clonedNode;
     }
 
-    /**
-     * prints to screen 1 line of the node (panel or shape)
-     * @param line
-     */
     public abstract void printLine(int line);
 
     public int getHeight(){
